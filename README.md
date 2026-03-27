@@ -55,12 +55,6 @@ Logs rotate at 5 MB and the last 3 files are retained automatically.
 uv sync
 ```
 
-**Set the environment variable** used to pass interactive prompts during `brew upgrade`:
-
-```bash
-export CONGA=""   # leave empty or set to expected prompt responses
-```
-
 **Run a one-time update**
 
 ```bash
@@ -82,3 +76,5 @@ bash update_software_mac
 ```
 
 This lists and installs all pending Apple software updates via `softwareupdate`.
+
+<br>
