@@ -3,6 +3,9 @@
 # nosec B404, B603, B607
 import os
 import subprocess
+from dotenv import load_dotenv
+
+load_dotenv()
 
 try:
     print("📦 Updating Cargo...")
