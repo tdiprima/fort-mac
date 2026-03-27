@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# Description: Script to fully update a macOS system
+
+softwareupdate --list                   # Display a list of all available software updates.
+softwareupdate --install --all          # Install all available software updates.
+
+# softwareupdate --install "product name" # Install a specific software update by its product name.
