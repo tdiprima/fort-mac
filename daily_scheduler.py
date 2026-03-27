@@ -1,12 +1,13 @@
 # Automates the daily execution of system updates for Rust and Homebrew at 3:00 PM,
 # logging the process and handling exceptions.
 # nosec B404, B603, B607
-import os
 import subprocess
 import time
 
 import schedule
 from loguru import logger
+
+from keychain import get_conga_from_keychain
 
 logger.add("scheduler.log", rotation="5 MB", retention=3, level="DEBUG")
 
@@ -15,7 +16,7 @@ def my_daily_task():
     logger.info("📦 Updating Cargo...")
     subprocess.run(["rustup", "update"])
     logger.info("✅ Cargo updated.")
-    conga = os.getenv("CONGA")
+    conga = get_conga_from_keychain()
     logger.info("🍺 Updating Homebrew...")
     subprocess.run(["brew", "update"])
     subprocess.run(["brew", "upgrade"], input=conga, text=True)
