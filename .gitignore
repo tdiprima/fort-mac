@@ -14,3 +14,5 @@ wheels/
 .claude/
 .ruff_cache/
 .mypy_cache/
+
+run_it.py
