@@ -16,16 +16,16 @@ logger = logging.getLogger(__name__)
 
 try:
     logger.info("Updating Cargo...")
-    subprocess.run(["rustup", "update"])
+    subprocess.run(["/Users/xxxxx/.cargo/bin/rustup", "update"])
     logger.info("Cargo updated.")
 
     conga = get_conga_from_keychain()
 
     logger.info("Updating Homebrew...")
-    subprocess.run(["brew", "update"])
-    subprocess.run(["brew", "upgrade"], input=conga, text=True)
-    subprocess.run(["brew", "cleanup", "-s"])
-    subprocess.run(["brew", "doctor"])
+    subprocess.run(["/usr/local/bin/brew", "update"])
+    subprocess.run(["/usr/local/bin/brew", "upgrade"], input=conga, text=True)
+    subprocess.run(["/usr/local/bin/brew", "cleanup", "-s"])
+    subprocess.run(["/usr/local/bin/brew", "doctor"])
     logger.info("Homebrew updated.")
 except RuntimeError as e:
     logger.error(e)

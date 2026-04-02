@@ -9,7 +9,7 @@ def get_conga_from_keychain() -> str:
     """Retrieve the CONGA secret from the macOS Keychain."""
     result = subprocess.run(
         [
-            "security",
+            "/usr/bin/security",
             "find-generic-password",
             "-a", os.environ["USER"],
             "-s", KEYCHAIN_SERVICE,
