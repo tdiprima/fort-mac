@@ -136,8 +136,17 @@ section "4 · Re-enable Sharing Services"
 revert "Re-enable Remote Apple Events" \
   sudo systemsetup -setremoteappleevents on
 
-revert "Re-enable Remote Login (SSH)" \
-  sudo systemsetup -setremotelogin on
+# revert "Re-enable Remote Login (SSH)" \
+#   sudo systemsetup -setremotelogin on
+
+run_cmd "echo yes | sudo systemsetup -setremotelogin on"
+if echo yes | sudo systemsetup -setremotelogin on >> "$LOG_FILE" 2>&1; then
+  ok "Re-enable Remote Login (SSH)"
+  log "OK: Re-enable Remote Login (SSH)"
+else
+  fail "Re-enable Remote Login (SSH)"
+  log "FAIL: Re-enable Remote Login (SSH)"
+fi
 
 revert "Re-enable Wake on Network Access" \
   sudo systemsetup -setwakeonnetworkaccess on

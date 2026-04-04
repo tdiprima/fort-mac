@@ -157,8 +157,17 @@ section "4 · Disable Unnecessary Sharing Services"
 apply "Disable Remote Apple Events" \
   sudo systemsetup -setremoteappleevents off
 
-apply "Disable Remote Login (SSH)" \
-  sudo systemsetup -setremotelogin off
+# apply "Disable Remote Login (SSH)" \
+#   sudo systemsetup -setremotelogin off
+
+run_cmd "echo yes | sudo systemsetup -setremotelogin off"
+if echo yes | sudo systemsetup -setremotelogin off >> "$LOG_FILE" 2>&1; then
+  ok "Disable Remote Login (SSH)"
+  log "OK: Disable Remote Login (SSH)"
+else
+  fail "Disable Remote Login (SSH)"
+  log "FAIL: Disable Remote Login (SSH)"
+fi
 
 apply "Disable Wake on Network Access" \
   sudo systemsetup -setwakeonnetworkaccess off
