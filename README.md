@@ -67,7 +67,7 @@ python update_mac.py
 python daily_scheduler.py
 ```
 
-To run it persistently in the background, consider wrapping it in a `launchd` plist or a `tmux` session.
+To run it persistently in the background, consider wrapping it in a `launchd` plist or a `screen` session.
 
 **Update macOS system software** (optional, standalone bash script):
 
