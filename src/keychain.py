@@ -1,4 +1,5 @@
 # Utility for retrieving secrets from the macOS Keychain.
+# security add-generic-password -a YOURUSER -s SERVICENAME -w PASS
 import os
 import subprocess
 
