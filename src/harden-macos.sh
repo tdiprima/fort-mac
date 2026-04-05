@@ -19,8 +19,8 @@ DIM='\033[2m'
 RST='\033[0m'
 
 BACKUP_DIR="$HOME/.macos_harden_backup"
-BACKUP_FILE="$BACKUP_DIR/pre_harden_state2.plist"
-LOG_FILE="$BACKUP_DIR/harden2.log"
+BACKUP_FILE="$BACKUP_DIR/pre_harden_state.plist"
+LOG_FILE="$BACKUP_DIR/harden.log"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 banner() {
@@ -157,8 +157,8 @@ section "4 · Disable Unnecessary Sharing Services"
 apply "Disable Remote Apple Events" \
   sudo systemsetup -setremoteappleevents off
 
-# apply "Disable Remote Login (SSH)" \
-#   sudo systemsetup -setremotelogin off
+apply "Disable Remote Login (SSH)" \
+  sudo systemsetup -setremotelogin off
 
 run_cmd "echo yes | sudo systemsetup -setremotelogin off"
 if echo yes | sudo systemsetup -setremotelogin off >> "$LOG_FILE" 2>&1; then
@@ -271,13 +271,17 @@ apply "Disable .DS_Store on USB volumes" \
 # ═════════════════════════════════════════════════════════════════════════════
 #  10. POWER & HIBERNATION
 # ═════════════════════════════════════════════════════════════════════════════
-section "10 · Secure Hibernation"
+# section "10 · Secure Hibernation"
 
-apply "Destroy FileVault keys on standby (cold boot protection)" \
-  sudo pmset -a destroyfvkeyonstandby 1
+# apply "Destroy FileVault keys on standby (cold boot protection)" \
+#   sudo pmset -a destroyfvkeyonstandby 1
 
-apply "Enable hibernation mode (write RAM to disk)" \
-  sudo pmset -a hibernatemode 25
+# apply "Enable hibernation mode (write RAM to disk)" \
+#   sudo pmset -a hibernatemode 25
+
+# Undo
+# sudo pmset -a destroyfvkeyonstandby 0
+# sudo pmset -a hibernatemode 3
 
 # ═════════════════════════════════════════════════════════════════════════════
 #  11. AUTOMATIC UPDATES
