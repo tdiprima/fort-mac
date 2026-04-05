@@ -19,8 +19,8 @@ DIM='\033[2m'
 RST='\033[0m'
 
 BACKUP_DIR="$HOME/.macos_harden_backup"
-BACKUP_FILE="$BACKUP_DIR/pre_harden_state.plist"
-LOG_FILE="$BACKUP_DIR/harden.log"
+BACKUP_FILE="$BACKUP_DIR/pre_harden_state1.plist"
+LOG_FILE="$BACKUP_DIR/harden1.log"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 banner() {
@@ -183,11 +183,11 @@ section "5 · Screen Lock & Login Window"
 backup_defaults "com.apple.screensaver" askForPassword
 backup_defaults "com.apple.screensaver" askForPasswordDelay
 
-apply "Require password immediately after sleep/screensaver" \
-  defaults write com.apple.screensaver askForPassword -int 1
+# apply "Require password immediately after sleep/screensaver" \
+#   defaults write com.apple.screensaver askForPassword -int 1
 
-apply "Set password delay to 0 seconds" \
-  defaults write com.apple.screensaver askForPasswordDelay -int 0
+# apply "Set password delay to 0 seconds" \
+#   defaults write com.apple.screensaver askForPasswordDelay -int 0
 
 apply "Disable guest account" \
   sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool false
@@ -245,8 +245,8 @@ section "8 · Network Hardening"
 apply "Disable Captive Portal detection (prevents auto HTTP probes)" \
   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
-apply "Disable AirDrop by default" \
-  defaults write com.apple.NetworkBrowser DisableAirDrop -bool true
+# apply "Disable AirDrop by default" \
+#   defaults write com.apple.NetworkBrowser DisableAirDrop -bool true
 
 # ═════════════════════════════════════════════════════════════════════════════
 #  9. FINDER & SYSTEM UI HARDENING
@@ -259,8 +259,8 @@ backup_defaults "NSGlobalDomain" com.apple.swipescrolldirection
 apply "Show all file extensions in Finder" \
   defaults write NSGlobalDomain AppleShowAllExtensions -bool true
 
-apply "Show hidden files in Finder" \
-  defaults write com.apple.finder AppleShowAllFiles -bool true
+# apply "Show hidden files in Finder" \
+#   defaults write com.apple.finder AppleShowAllFiles -bool true
 
 apply "Disable .DS_Store on network volumes" \
   defaults write com.apple.desktopservices DSDontWriteNetworkStores -bool true
