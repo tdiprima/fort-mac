@@ -19,8 +19,8 @@ DIM='\033[2m'
 RST='\033[0m'
 
 BACKUP_DIR="$HOME/.macos_harden_backup"
-BACKUP_FILE="$BACKUP_DIR/pre_harden_state1.plist"
-LOG_FILE="$BACKUP_DIR/harden1.log"
+BACKUP_FILE="$BACKUP_DIR/pre_harden_state2.plist"
+LOG_FILE="$BACKUP_DIR/harden2.log"
 
 # ── Helpers ──────────────────────────────────────────────────────────────────
 banner() {
@@ -245,8 +245,8 @@ section "8 · Network Hardening"
 apply "Disable Captive Portal detection (prevents auto HTTP probes)" \
   sudo defaults write /Library/Preferences/SystemConfiguration/com.apple.captive.control Active -bool false
 
-# apply "Disable AirDrop by default" \
-#   defaults write com.apple.NetworkBrowser DisableAirDrop -bool true
+apply "Disable AirDrop by default" \
+  defaults write com.apple.NetworkBrowser DisableAirDrop -bool true
 
 # ═════════════════════════════════════════════════════════════════════════════
 #  9. FINDER & SYSTEM UI HARDENING
