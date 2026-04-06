@@ -129,28 +129,27 @@ warn "FileVault is NOT automatically disabled by rollback (data protection)."
 info "To disable: System Settings → Privacy & Security → FileVault → Turn Off"
 
 # ═════════════════════════════════════════════════════════════════════════════
-#  4. SHARING & REMOTE ACCESS
+#  4. SHARING & REMOTE ACCESS (FIXED)
 # ═════════════════════════════════════════════════════════════════════════════
-section "4 · Re-enable Sharing Services"
+section "4 · Sharing Services → Default-safe"
 
-revert "Re-enable Remote Apple Events" \
-  sudo systemsetup -setremoteappleevents on
+# 🚫 macOS default: OFF → DO NOT enable
+# revert "Re-enable Remote Apple Events" \
+#   sudo systemsetup -setremoteappleevents on
 
+info "Remote Apple Events left OFF (default macOS)"
+
+# 🚫 macOS default: OFF → DO NOT enable SSH
 # revert "Re-enable Remote Login (SSH)" \
 #   sudo systemsetup -setremotelogin on
 
-run_cmd "echo yes | sudo systemsetup -setremotelogin on"
-if echo yes | sudo systemsetup -setremotelogin on >> "$LOG_FILE" 2>&1; then
-  ok "Re-enable Remote Login (SSH)"
-  log "OK: Re-enable Remote Login (SSH)"
-else
-  fail "Re-enable Remote Login (SSH)"
-  log "FAIL: Re-enable Remote Login (SSH)"
-fi
+info "Remote Login (SSH) left OFF (default macOS)"
 
+# ⚠️ Wake-on-LAN is usually ON by default → safe to restore
 revert "Re-enable Wake on Network Access" \
   sudo systemsetup -setwakeonnetworkaccess on
 
+# ⚠️ Bluetooth sharing varies, but enabling is fine
 revert "Re-enable Bluetooth Sharing" \
   defaults -currentHost write com.apple.Bluetooth PrefKeyServicesEnabled -bool true
 
@@ -162,8 +161,11 @@ section "5 · Screen Lock & Login Window → Relax"
 restore_default "com.apple.screensaver" askForPassword
 restore_default "com.apple.screensaver" askForPasswordDelay
 
-revert "Re-enable guest account" \
-  sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool true
+# 🚫 Default macOS: Guest OFF
+# revert "Re-enable guest account" \
+#   sudo defaults write /Library/Preferences/com.apple.loginwindow GuestEnabled -bool true
+
+info "Guest account left DISABLED (default macOS)"
 
 revert "Show user list at login (not name+password)" \
   sudo defaults write /Library/Preferences/com.apple.loginwindow SHOWFULLNAME -bool false
