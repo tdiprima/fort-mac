@@ -2,6 +2,12 @@
 
 # AirDrop Doctor++ v2 (safe, idempotent, no Wi-Fi kill)
 
+# Enable / fix AirDrop
+# ./airdrop_toggle_v2.sh 1
+
+# Harden / disable AirDrop
+# ./airdrop_toggle_v2.sh 2
+
 set -e
 
 # Colors
