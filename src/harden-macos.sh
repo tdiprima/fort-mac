@@ -305,8 +305,8 @@ apply "Enable App Store auto-updates" \
 # ═════════════════════════════════════════════════════════════════════════════
 section "12 · Miscellaneous"
 
-apply "Enable Secure Keyboard Entry in Terminal.app" \
-  defaults write com.apple.terminal SecureKeyboardEntry -bool true
+# apply "Enable Secure Keyboard Entry in Terminal.app" \
+#   defaults write com.apple.terminal SecureKeyboardEntry -bool true
 
 apply "Disable Bonjour multicast advertisements" \
   sudo defaults write /Library/Preferences/com.apple.mDNSResponder.plist NoMulticastAdvertisements -bool true
