@@ -124,7 +124,6 @@ bash src/update_software_mac
 ```bash
 # Enable AirDrop (auto-reverts visibility after 10 min)
 bash src/airdrop_toggle_v2.sh 1
-
 # Disable AirDrop and re-harden
 bash src/airdrop_toggle_v2.sh 2
 ```
@@ -136,6 +135,8 @@ The update scripts retrieve credentials from the macOS Keychain. Store yours fir
 ```bash
 security add-generic-password -a "$USER" -s "mac_update_conga" -w "<your-value>"
 ```
+
+# 💃🏻
 
 ## License
 
