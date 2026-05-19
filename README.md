@@ -59,7 +59,28 @@ The updater reads your sudo password from the macOS Keychain. Store it once:
 security add-generic-password -a "$USER" -s mac_update_conga -w "<your password>"
 ```
 
-## ⚠️ Disclaimer:
-Don't run the hardening scripts unless you know what the hell you're doing. Read and understand every command before executing. Some settings — blocking all incoming connections, disabling mDNS, turning off remote login — will break things you might need. You have been warned.
+## ⚠️ Disclaimer / "You Were Warned" Section
+
+If you run this code and your server catches fire, your cat learns Kubernetes, your prod database achieves enlightenment, or your toaster somehow joins the cluster — that's on you.
+
+I am not responsible for:
+
+* broken systems
+* deleted data
+* corrupted configs
+* emotional damage
+* spontaneous outages
+* DNS-related psychological warfare
+* your boss asking "who approved this?"
+* any incident tickets created at 3:17 AM
+* keyboards launched across the room
+* or literally anything else
+
+Some of this code can absolutely break your stuff.  
+Do not copy-paste random commands unless you genuinely understand what they do.
+
+Seriously.
+
+You've been warned. ☠️
 
 <br>
