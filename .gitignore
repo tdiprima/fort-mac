@@ -16,3 +16,5 @@ wheels/
 .mypy_cache/
 
 run_it.py
+
+.codegraph/
