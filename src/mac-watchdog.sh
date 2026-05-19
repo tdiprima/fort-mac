@@ -81,7 +81,11 @@ notify() {
   local body="$2"
 
   if [[ "${ENABLE_NOTIFICATIONS}" -eq 1 ]]; then
-    /usr/bin/osascript -e "display notification \"${body//\"/\\\"}\" with title \"${title//\"/\\\"}\"" >/dev/null 2>&1 || true
+    /usr/bin/osascript \
+      -e 'on run argv' \
+      -e 'display notification (item 2 of argv) with title (item 1 of argv)' \
+      -e 'end run' \
+      -- "$title" "$body" >/dev/null 2>&1 || true
   fi
 }
 

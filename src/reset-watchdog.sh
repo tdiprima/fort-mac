@@ -1,8 +1,9 @@
-#!/bin/bash
+#!/usr/bin/env bash
+set -euo pipefail
 
 # kill anything watchdog
-pkill -f watchdog
-pkill -f "log stream"
+pkill -f watchdog || true
+pkill -f "log stream" || true
 
 # remove launch agent
 rm -f ~/Library/LaunchAgents/com.mac-watchdog.plist

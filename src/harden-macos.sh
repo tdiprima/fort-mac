@@ -50,7 +50,7 @@ apply() {
   # apply <description> <command...>
   local desc="$1"; shift
   run_cmd "$*"
-  if eval "$@" >> "$LOG_FILE" 2>&1; then
+  if "$@" >> "$LOG_FILE" 2>&1; then
     ok "$desc"
     log "OK: $desc"
   else

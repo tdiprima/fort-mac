@@ -1,145 +1,64 @@
-# Fort Mac 💻
+# fort-mac 🏰
 
-One-command macOS hardening, continuous security monitoring, and automated maintenance.
+macOS security hardening, monitoring, and maintenance automation for MacBook Pro (macOS 13+).
 
-## Your Mac Ships Wide Open
+## The Threat Surface Nobody Thinks About
 
-Out of the box, macOS leaves the firewall off, AirDrop broadcasting to everyone, guest accounts enabled, crash reports phoning home, and Bonjour advertising your machine to the network. Every setting you should change lives in a different panel, behind a different toggle, documented in a different support article. Most developers never touch them. The ones who do spend an afternoon clicking through System Settings and hope they didn't miss anything.
+A stock macOS install is friendly — maybe too friendly. Remote Apple Events, mDNS multicast, AirDrop broadcasting, guest accounts, no stealth mode. Fine for a home desk. Not fine on a conference Wi-Fi, a shared office network, or anywhere you'd rather not be discovered.
 
-Meanwhile, `brew update && brew upgrade && brew cleanup && brew doctor` gets old fast. Skip it for a week and you're debugging stale dependencies instead of writing code.
+## What This Does
 
-## Harden, Watch, Maintain
+`fort-mac` is a collection of focused scripts that lock down, monitor, and maintain a Mac:
 
-**fort-mac** handles all three in one toolkit:
+- **Harden** — applies ~40 security settings across firewall, Gatekeeper, sharing services, login window, Safari, telemetry, and network behavior. Backs up every setting it touches so rollback is exact.
+- **Rollback** — restores only what was changed. Two variants: a full rollback and a safe-mode rollback that never re-enables attack surface (SSH, Remote Apple Events stay off).
+- **Watchdog** — polls LaunchAgents/LaunchDaemons for new or modified persistence files, checks firewall/SSH/FileVault state drift, streams unified logs for auth failures, Gatekeeper events, and malware signals. Sends desktop notifications on any hit.
+- **AirDrop toggle** — one command to open AirDrop for a file transfer (visibility auto-reverts to Contacts Only after 10 minutes), and one command to lock it back down.
+- **Homebrew + Rust updater** — daily scheduled maintenance. Pulls the sudo password from the macOS Keychain; no plaintext credentials anywhere.
 
-**Harden** locks down 12 categories of macOS security settings in a single run — firewall with stealth mode, FileVault encryption, Gatekeeper enforcement, disabled sharing services, Safari privacy, telemetry suppression, and more. Every change is backed up first, and a rollback script restores your previous state if needed.
-
-**Watch** runs continuous security monitoring. A watchdog daemon detects new LaunchAgents and LaunchDaemons, tracks firewall/SSH/FileVault state drift, tails the unified log for authentication failures and malware signals, and pushes desktop notifications when something changes.
-
-**Maintain** keeps Homebrew and Rust toolchains current with a one-shot updater or a persistent daily scheduler that fires at 3:00 PM, logs every run, and rotates its own log files.
-
-## What It Looks Like
-
-Hardening a fresh machine:
+## Quick Example
 
 ```bash
+# Harden the machine (backs up current state first)
 bash src/harden-macos.sh
-```
 
-```
-🔒  macOS Hardening Script
-
-━━━ 1 · Firewall ━━━
-  ✔  Enable application-layer firewall
-  ✔  Enable stealth mode (drop unsolicited packets)
-  ✔  Enable logging on the firewall
-  ✔  Block all incoming connections (signed apps still allowed)
-
-━━━ 2 · Gatekeeper & Code Signing ━━━
-  ✔  Restrict app sources to App Store + identified developers
-  ✔  SIP is already enabled
-
-━━━ 3 · FileVault Disk Encryption ━━━
-  ✔  FileVault is already enabled
-  ...
-
-✅  Hardening complete
-  Backup saved to: ~/.macos_harden_backup
-  ⚠  A restart is recommended to apply all changes.
-  ⚠  Run the rollback script to undo these changes.
-```
-
-Running the watchdog:
-
-```bash
+# Watch for persistence changes and security drift
 bash src/mac-watchdog.sh watch
-```
 
-```
-👀  mac-watchdog
+# Need to AirDrop something? Open for 10 min, then auto-revert
+bash src/airdrop_toggle_v2.sh 1
 
-[STEP]  Creating baseline
-[OK]    Baseline created
-[OK]    Firewall enabled (globalstate=1)
-[OK]    Remote Login (SSH) is OFF
-[OK]    FileVault is ON
-[ALERT] New persistence-related file detected: ~/Library/LaunchAgents/suspicious.plist
+# Undo hardening (restores your exact pre-harden state)
+bash src/rollback-macos-v2.sh
 ```
 
 ## Usage
 
-### Prerequisites
+| Script | Purpose |
+|--------|---------|
+| `src/harden-macos.sh` | Apply all hardening settings |
+| `src/rollback-macos-v2.sh` | Restore pre-harden state (safe mode) |
+| `src/mac-watchdog.sh baseline` | Snapshot current persistence state |
+| `src/mac-watchdog.sh watch` | Continuous monitoring loop |
+| `src/mac-watchdog.sh once` | Single-pass check |
+| `src/airdrop_toggle_v2.sh 1` | Enable AirDrop (auto-reverts in 10 min) |
+| `src/airdrop_toggle_v2.sh 2` | Disable AirDrop + harden |
+| `src/reset-watchdog.sh` | Stop watchdog and reset network/firewall state |
 
-- macOS 13+
-- Python 3.11+ and [uv](https://github.com/astral-sh/uv)
-- Homebrew and rustup installed
-
-### Install dependencies
-
-```bash
-uv sync
-```
-
-### Security hardening
-
-```bash
-# Harden the system (backs up current state first)
-bash src/harden-macos.sh
-
-# Undo all hardening changes
-bash src/rollback-macos.sh
-
-# Rebuild backup from current system state
-bash src/default_state_backup.sh
-```
-
-### Continuous monitoring
+**Python updater (requires `uv`):**
 
 ```bash
-# Create baseline and start watching
-bash src/mac-watchdog.sh watch
-
-# Run checks once without looping
-bash src/mac-watchdog.sh once
-
-# Stop background log watcher
-bash src/mac-watchdog.sh stop
+uv run src/update_mac.py          # run once
+uv run src/daily_scheduler.py     # run on schedule (3 PM daily)
 ```
 
-### Automated updates
+The updater reads your sudo password from the macOS Keychain. Store it once:
 
 ```bash
-# One-time Homebrew + Rust update
-python src/update_mac.py
-
-# Daily scheduler (fires at 3:00 PM, logs to scheduler.log)
-python src/daily_scheduler.py
-
-# Apple system software updates
-bash src/update_software_mac
+security add-generic-password -a "$USER" -s mac_update_conga -w "<your password>"
 ```
 
-### AirDrop toggle
-
-```bash
-# Enable AirDrop (auto-reverts visibility after 10 min)
-bash src/airdrop_toggle_v2.sh 1
-# Disable AirDrop and re-harden
-bash src/airdrop_toggle_v2.sh 2
-```
-
-### Keychain setup
-
-The update scripts retrieve credentials from the macOS Keychain. Store yours first:
-
-```bash
-security add-generic-password -a "$USER" -s "mac_update_conga" -w "<your-value>"
-```
-
-# 💃🏻
-
-## License
-
-[MIT](LICENSE)
+## ⚠️ Disclaimer:
+Don't run the hardening scripts unless you know what the hell you're doing. Read and understand every command before executing. Some settings — blocking all incoming connections, disabling mDNS, turning off remote login — will break things you might need. You have been warned.
 
 <br>
