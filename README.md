@@ -1,7 +1,7 @@
 # fort-mac 🏰
 
 macOS security hardening, monitoring, and maintenance automation for MacBook Pro (macOS 13+).
-<p align="center">⚠️ <strong>Warning Below </strong>⬇️</p>
+<p align="center">⚠️ <strong>Important: Read warning below </strong>⬇️</p>
 
 ## The Threat Surface Nobody Thinks About
 
