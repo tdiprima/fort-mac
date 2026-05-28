@@ -1,7 +1,7 @@
 # fort-mac 🏰
 
 macOS security hardening, monitoring, and maintenance automation for MacBook Pro (macOS 13+).
-<p align="center">⚠️ <strong>Important: Read warning below </strong>⬇️</p>
+<p align="center">⚠ <strong>Important: Read warning below </strong>⬇</p>
 
 ## The Threat Surface Nobody Thinks About
 
@@ -59,7 +59,7 @@ The updater reads your sudo password from the macOS Keychain. Store it once:
 security add-generic-password -a "$USER" -s mac_update_conga -w "<your password>"
 ```
 
-## ⚠️ Disclaimer / "You Were Warned" Section
+## ⚠ Disclaimer / "You Were Warned" Section
 
 If you run this code and your server catches fire, your cat learns Kubernetes, your prod database achieves enlightenment, or your toaster somehow joins the cluster — that's on you.
 
@@ -81,6 +81,6 @@ Do not copy-paste random commands unless you genuinely understand what they do.
 
 Seriously.
 
-You've been warned. ☠️
+You've been warned. ☠
 
 <br>

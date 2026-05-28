@@ -145,11 +145,11 @@ info "Remote Apple Events left OFF (default macOS)"
 
 info "Remote Login (SSH) left OFF (default macOS)"
 
-# ⚠️ Wake-on-LAN is usually ON by default → safe to restore
+# ⚠ Wake-on-LAN is usually ON by default → safe to restore
 revert "Re-enable Wake on Network Access" \
   sudo systemsetup -setwakeonnetworkaccess on
 
-# ⚠️ Bluetooth sharing varies, but enabling is fine
+# ⚠ Bluetooth sharing varies, but enabling is fine
 revert "Re-enable Bluetooth Sharing" \
   defaults -currentHost write com.apple.Bluetooth PrefKeyServicesEnabled -bool true
 
